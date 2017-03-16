@@ -1,0 +1,49 @@
+#define ALL 	38
+#define AND      1
+#define AMMSC     2 
+#define ANY      	7
+#define AS      8
+#define BETWEEN  9    
+#define BY      10
+#define CHARACTER	11      
+#define CREATE      12
+#define DECIMAL      13
+#define DELETE      14
+#define DESC      15
+#define DISTINCT    16  
+#define FOREIGN      17
+#define FROM      18
+#define GRANT      19
+#define GROUP      20
+#define HAVING      21
+#define IN      22
+#define INSERT   23   
+#define INTEGER     24   
+#define INTO        25
+#define IS          26
+#define KEY         27
+#define LIKE        28
+#define NOT         29
+#define NULLX       30 
+#define NUMERIC     31  
+#define OPTION      32
+#define OR          33
+#define ORDER       34
+#define PRIMARY     35 
+#define REFERENCES  36   
+#define SELECT      37
+#define TABLE       39
+#define UNION       40
+#define UNIQUE      41
+#define UPDATE      42
+#define USER        43
+#define VALUES		44
+
+#define INT_NUMBER  52
+
+#define COMPARISON  101
+#define ARITHMETIC  102
+
+#define IDENTIFIERS 103
+
+#define LITERALS	104
