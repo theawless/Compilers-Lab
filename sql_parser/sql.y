@@ -283,9 +283,9 @@ expr: NAME expr_LF
     | ARITHMETIC_NOT expr expr_LR
     | ARITHMETIC_SUB expr expr_LR
 
-expr_LF: expr_LR
-    | STARTPARENTHESIS opt_val_list ENDPARENTHESIS expr_LR
+expr_LF: STARTPARENTHESIS opt_val_list ENDPARENTHESIS expr_LR
     | DOT NAME expr_LR
+    | expr_LR
 
 expr_LR: ARITHMETIC_ADD expr expr_LR
     | ARITHMETIC_SUB expr expr_LR
