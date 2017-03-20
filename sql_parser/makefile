@@ -1,7 +1,8 @@
-all: sql sql_manual
+all: sql sql_manual_nograph
 
 sql: lex.yy.c y.tab.c
 	gcc -g lex.yy.c y.tab.c -o sql
+	rm -f lex.yy.x y.tab.c y.tab.h
 
 lex.yy.c: y.tab.c sql.l
 	lex sql.l
