@@ -129,6 +129,7 @@ bool match(int x)
 {
     if (token_ids[current] == x)
     {
+        cerr << tokens[current];
         current++;
         return true;
     }
@@ -841,13 +842,13 @@ bool expr()
 bool expr_LF()
 {
     int old_position = current;
-    if (expr_LR())
-        return true;
-    current = old_position;
     if (match(STARTPARENTHESIS) && opt_val_list() && match(ENDPARENTHESIS) && expr_LR())
         return true;
     current = old_position;
     if (match(DOT) && match(NAME) && expr_LR())
+        return true;
+    current = old_position;
+    if (expr_LR())
         return true;
     current = old_position;
     return false;
