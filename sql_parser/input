@@ -1,0 +1,29 @@
+create table Course (cid char(5), cname varchar(255), primary key(cid));
+
+create table Registration (sid int, cid char(5), primary key(sid, cid));
+
+select c.cname from Course c where c.cid = 'CS344';
+
+select s.sname from Student as s where s.sname like 'Q%';
+
+select s.sid, s.sname from Student s, Registration r where s.sid = r.sid group by s.sid, s.sname having s.sid >= 3;
+
+select r.sid from Course c, Registration r where r.cid = c.cid group by r.sid having r.grade * c.credit > 7.5;
+
+select r.sid from Course c, Registration r where r.cid = c.cid group by r.sid having r.grade * c.credit >= all(select r.grade * c.credit from Course c, Registration r where r.cid = c.cid group by r.sid);
+
+select c.cid, avg(r.grade) from Course c, Registration r where c.cid = r.cid group by c.cid;
+
+select distinct s.sid from Student s, Registration r where s.sid = r.sid and r.grade >= all(select r.grade from Course c, Registration r where c.cid = r.cid);
+
+delete from course where r.sid = p.sid;
+
+delete from course;
+
+drop table wow;
+
+alter table persons alter column Dateofbirth int;
+
+alter table persons add Dateofbirth char(5);
+
+alter table persons drop column Dateofbirth;
