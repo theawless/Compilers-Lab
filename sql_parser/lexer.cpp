@@ -121,8 +121,8 @@ const vector<int> token_numbers = {
 };
 
 // these are raw regex strings, they are in the same order as in sql.l
-// some strings had to be made a bit different to escape special regex characters like dot . 
-// the regex strings have ^ because our implementation checks each regex, and if it is matched then we cut the string.
+// some strings had to be made a bit different to escape special regex characters like dot
+// the regex strings have ^ because our implementation checks each regex, and if it is matched then we cut the string from the beginning
 const vector<string> token_names = {
     R"###(^ALL\b)###",
     R"###(^AND\b)###",

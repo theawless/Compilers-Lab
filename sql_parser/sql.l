@@ -2,12 +2,7 @@
 
 /* this file is provided after we generate the yacc file from bison. */
 /* it contains the token ids, it acts just like sql.h */
-
 #include "y.tab.h"
-
-// we have not used these
-//int lineno = 1;
-//void yyerror(char *s);
 
 %}
 %option caseless yylineno
@@ -99,13 +94,8 @@
 "&&" return (ANDOP);
 "||" return (OR);
 
-	/*old*/
-	/* ["][A-Za-z%][][A-Za-z0-9_%]*["] return (STRING);
-	['][A-Za-z%][][A-Za-z0-9_%]*['] return (STRING);
-	*/
-
 '(\\.|''|[^'\n])*'	|
-\"(\\.|\"\"|[^"\n])*\"  return STRING;
+\"(\\.|\"\"|[^"\n])*\"  return (STRING);
 
 '(\\.|[^'\n])*$	        yyerror("string not complete %s", yytext);
 \"(\\.|[^"\n])*$	yyerror("string not complete %s", yytext);

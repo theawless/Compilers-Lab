@@ -2,6 +2,7 @@
 #include <bits/stdc++.h>
 #include "sql.h"
 using namespace std;
+// node class to help us print the syntax tree
 class Node
 {
   public:
@@ -22,8 +23,11 @@ Node::Node(string name)
     parent = NULL;
 }
 
+// prints the syntax tree
 void printTree(Node *currentNode);
+// returns true if token matches the terminal
 bool match(int x);
+// declarations of all the functions corresponding to the nonterminals
 bool stmt_list(Node *currentNode);
 bool stmt_list_LR(Node *currentNode);
 bool stmt(Node *currentNode);
@@ -100,12 +104,18 @@ bool alter_table_stmt(Node *currentNode);
 bool column_modify(Node *currentNode);
 bool column_modify_LF(Node *currentNode);
 
+// stores the current pointer of the tokens
 int current;
-bool error = false;
 
+// list of all tokens of input, defined in lexer
 extern vector<string> tokens;
+// list of all tokens ids of input for matching terminals, defined in lexer
 extern vector<int> token_ids;
+
+// populates the above lists , defined in lexer
 void lexify_line(string &line);
+
+// iteratively take the input statements
 void run_loop()
 {
     while (true)
@@ -115,15 +125,19 @@ void run_loop()
         tokens.clear();
         cout << "Enter statement: ";
         string line;
+
+        // wait till we get a ';' in the input line, otherwise keep inputting the line
         getline(cin, line, ';');
         line += ';';
         lexify_line(line);
 
-        for (auto i = 0; i < tokens.size(); i++)
+/*        for (auto i = 0; i < tokens.size(); i++)
         {
             cout << tokens[i] << " " << token_ids[i] << " ";
         }
+*/
         cout << endl;
+        // this is the head node, stmt_list is the start non terminal corresponding to first production
         Node *head = new Node("stmt_list");
         if (stmt_list(head))
         {
@@ -134,9 +148,11 @@ void run_loop()
         {
             cout << "Rejected." << endl;
         }
+        if(!cin){return;}
     }
 }
 
+// entry point
 int main(int argc, char **argv)
 {
     if (argc != 1)
@@ -156,17 +172,18 @@ bool match(int x)
         return false;
 }
 
+// creates the node for nonterminal symbol identified by name
 Node *createNode(string name)
 {
     Node *temp = new Node(name);
     return temp;
 }
 
+// adds an edge between parent and child for each production rule
 void add_edge(Node *par, Node *child)
 {
     (*par).children.push_back(child);
     (*child).parent = par;
-//    (*child).height = (*par).height + 1;
 }
 
 void printTree(Node *currentNode)
@@ -174,7 +191,6 @@ void printTree(Node *currentNode)
     vector<Node *> temp = (*currentNode).children;
     if (!(*currentNode).isNonTerminal)
     {
-        //cout << (*currentNode).tokenName << endl;
         return;
     }
     for (int i = 0; i < (*currentNode).height; ++i)
@@ -203,13 +219,23 @@ void printTree(Node *currentNode)
     }
 }
 
+/**
+production rule:
+    stmt_list: stmt SEMICOLON stmt_list_LR
+
+return true if it matches any production
+**/
 bool stmt_list(Node *currentNode)
 {
+    // mark the current node as non terminal
     (*currentNode).isNonTerminal = true;
+    // remember the current index in token list
     int old_position = current;
+    // create nodes for each child of the production
     Node *n1 = createNode("stmt");
     Node *n2 = createNode("SEMICOLON");
     Node *n3 = createNode("stmt_list_LR");
+    // if all children match then add the corresponding egde in the syntax tree 
     if (stmt(n1) && match(SEMICOLON) && stmt_list_LR(n3))
     {
         add_edge(currentNode, n1);
@@ -217,6 +243,9 @@ bool stmt_list(Node *currentNode)
         add_edge(currentNode, n3);
         return true;
     }
+    // if it is false, then update the current pointer back to the old position and return false
+    // in case the production produces epsilon then we always return true -- for example look stmt_list_LR
+    
     current = old_position;
     return false;
 }
@@ -236,6 +265,7 @@ bool stmt_list_LR(Node *currentNode)
         return true;
     }
     current = old_position;
+    // always return true because production produces epsilon
     return true;
 }
 

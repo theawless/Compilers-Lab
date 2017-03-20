@@ -90,8 +90,13 @@ void disp(const char *state, const char *string);
 %%
 
 /* this grammar is non left recursive, and left factored */
-/* we have removed the ambiguities */
-/* bison is a bottom up parser, but we did that so that we can use the same grammar in our descent recursive parser*/
+/* bison is a bottom up parser, but we did the above so that we can use the same grammar in our descent recursive parser*/
+/*
+
+we removed left recursion by introducing a new non terminal p_LR for non terminal p which causes left recursion
+we took care of left factoring by introducing p_LF for non terminal p which cause a problem 
+
+*/
         /* start state*/
 stmt_list: stmt SEMICOLON stmt_list_LR
 
