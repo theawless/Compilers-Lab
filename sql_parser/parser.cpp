@@ -128,6 +128,7 @@ void run_loop()
 
         // wait till we get a ';' in the input line, otherwise keep inputting the line
         getline(cin, line, ';');
+        if(!cin){return;}
         line += ';';
         lexify_line(line);
 
@@ -148,7 +149,6 @@ void run_loop()
         {
             cout << "Rejected." << endl;
         }
-        if(!cin){return;}
     }
 }
 
