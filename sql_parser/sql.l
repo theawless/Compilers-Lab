@@ -14,16 +14,16 @@
 "ADD"			return (ADD);
 "ANY"			return (ANY);
 "ALTER"			return (ALTER);
-"AS"			return (AS);
 "ASC"			return (ASC);
+"AS"			return (AS);
 "AUTO_INCREMENT" return (AUTO_INCREMENT);
 "WHERE"			return (WHERE);
 "BY"			return (BY);
-"CHAR"			return (CHAR);
 "CHARACTER"		return (CHAR);
+"CHAR"			return (CHAR);
 "COLUMN"		return (COLUMN);
-"VARCHAR"		return (VARCHAR);
 "VARCHARACTER"	return (VARCHAR);
+"VARCHAR"		return (VARCHAR);
 "CREATE"		return (CREATE);
 "DEFAULT"		return (DEFAULT);
 "DROP"			return (DROP);
@@ -37,11 +37,11 @@
 "GRANT"			return (GRANT);
 "GROUP"			return (GROUP);
 "HAVING"		return (HAVING);
-"IN"			return (IN);
 "INSERT"		return (INSERT);
-"INT"			return (INT);
 "INTEGER"		return (INT);
 "INTO"			return (INTO);
+"INT"			return (INT);
+"IN"			return (IN);
 "IS"			return (IS);
 "KEY"			return (KEY);
 "LIKE"			return (LIKE);
@@ -51,8 +51,8 @@
 "NULL"			return (NULLX);
 "NUMERIC"		return (NUMERIC);
 "OPTION"		return (OPTION);
-"OR"			return (OR);
 "ORDER"			return (ORDER);
+"OR"			return (OR);
 "PRIMARY"		return (PRIMARY);
 "REFERENCES"	return (REFERENCES);
 "REGEXP"		return (REGEXP);
@@ -70,10 +70,10 @@
 "="				|
 "<>" 			|
 "<=>" 			|
-"<"				|
-">"				|
 "<="			|
-">="			 			return (COMPARISON);
+">="			|
+"<"				|
+">"							return (COMPARISON);
 "-"							return (ARITHMETIC_SUB);
 "+"							return (ARITHMETIC_ADD);
 "*"							return (ARITHMETIC_MUL);
@@ -88,6 +88,9 @@
 "TRUE"	return (BOOL);
 "UNKNOWN"	return (BOOL);
 "FALSE"	return (BOOL);
+
+"&&" return (ANDOP);
+"||" return (OR);
 
 	/*old*/
 	/* ["][A-Za-z%][][A-Za-z0-9_%]*["] return (STRING);
