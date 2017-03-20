@@ -24,7 +24,7 @@ static inline std::string &rtrim(std::string &s)
             s.end());
     return s;
 }
-
+// removes white space from the beginning
 static inline std::string &trim(std::string &s)
 {
     return ltrim(rtrim(s));
@@ -120,6 +120,9 @@ const vector<int> token_numbers = {
     INTNUM,
 };
 
+// these are raw regex strings, they are in the same order as in sql.l
+// some strings had to be made a bit different to escape special regex characters like dot . 
+// the regex strings have ^ because our implementation checks each regex, and if it is matched then we cut the string.
 const vector<string> token_names = {
     R"###(^ALL\b)###",
     R"###(^AND\b)###",
@@ -227,6 +230,7 @@ bool check(string &line, const string &token_name, const int token_number)
         //for (auto x:result) std::cout << x << " " << token_name << token_number << endl;
         token_ids.push_back(token_number);
         tokens.push_back(result.str());
+        // if regex matches, use the next substring.
         line = result.suffix().str();
         return true;
     }
@@ -239,6 +243,8 @@ bool check(string &line, const string &token_name, const int token_number)
 void lexify_line(string &line)
 {
     int i = 0;
+
+    // check if the line matches any regex, otherwise go to next regex string
     for (i = 0; i < token_names.size();)
     {
         line = trim(line);
@@ -257,6 +263,9 @@ void lexify_line(string &line)
         cerr << "Unmatched character" << endl;
     }
 }
+
+// to test the lexer alone 
+// this code has been moved to parser
 /*
 void run_loop()
 {

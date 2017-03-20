@@ -4,11 +4,14 @@
 #include <stdarg.h>
 #include <string.h>
 
+/* uses variable list of args*/
 void yyerror (char *s, ...);
+/* this function used to display when a command is accepted */
 void disp(const char *state, const char *string);
 %}
 
 /* Yacc definitions */
+/* these are our tokens, that have their regexes defined in the lex file. */
 %token ALL
 %token ANDOP
 %token ADD
@@ -86,6 +89,10 @@ void disp(const char *state, const char *string);
 %start stmt_list
 %%
 
+/* this grammar is non left recursive, and left factored */
+/* we have removed the ambiguities */
+/* bison is a bottom up parser, but we did that so that we can use the same grammar in our descent recursive parser*/
+        /* start state*/
 stmt_list: stmt SEMICOLON stmt_list_LR
 
 stmt_list_LR: /* empty */
@@ -345,7 +352,9 @@ void disp(const char *state,const char *string)
 
 void yyerror(char *s, ...)
 {
+
   extern yylineno;
+  /* open up the variable args list */
   va_list ap;
   va_start(ap, s);
 

@@ -1,11 +1,18 @@
 %{
+
+/* this file is provided after we generate the yacc file from bison. */
+/* it contains the token ids, it acts just like sql.h */
+
 #include "y.tab.h"
 
+// we have not used these
 //int lineno = 1;
 //void yyerror(char *s);
 
 %}
 %option caseless yylineno
+
+/* also made sure that the ordering is perfect, example asc should be before as, otherwise all asc will be tokenised as as */
 
 %%
 				/*keywords*/

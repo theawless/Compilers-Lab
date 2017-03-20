@@ -1,3 +1,5 @@
+// this file defines all the token ids
+
 #define ALL 1
 #define ANDOP 2
 #define ADD 3
