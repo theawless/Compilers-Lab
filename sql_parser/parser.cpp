@@ -103,9 +103,11 @@ bool drop_table_stmt(Node *currentNode);
 bool alter_table_stmt(Node *currentNode);
 bool column_modify(Node *currentNode);
 bool column_modify_LF(Node *currentNode);
+void printError();
 
-// stores the current pointer of the tokens
+// stores the current pointer of the tokens and farthest matched token
 int current;
+int farthest;
 
 // list of all tokens of input, defined in lexer
 extern vector<string> tokens;
@@ -120,7 +122,7 @@ void run_loop()
 {
     while (true)
     {
-        current = 0;
+        current = farthest = 0;
         token_ids.clear();
         tokens.clear();
         cout << "Enter statement: ";
@@ -128,11 +130,14 @@ void run_loop()
 
         // wait till we get a ';' in the input line, otherwise keep inputting the line
         getline(cin, line, ';');
-        if(!cin){return;}
+        if (!cin)
+        {
+            return;
+        }
         line += ';';
         lexify_line(line);
 
-/*        for (auto i = 0; i < tokens.size(); i++)
+        /*        for (auto i = 0; i < tokens.size(); i++)
         {
             cout << tokens[i] << " " << token_ids[i] << " ";
         }
@@ -147,6 +152,7 @@ void run_loop()
         }
         else
         {
+            printError();
             cout << "Rejected." << endl;
         }
     }
@@ -166,6 +172,10 @@ bool match(int x)
     if (token_ids[current] == x)
     {
         current++;
+        if (current > farthest)
+        {
+            farthest = current;
+        }
         return true;
     }
     else
@@ -184,6 +194,13 @@ void add_edge(Node *par, Node *child)
 {
     (*par).children.push_back(child);
     (*child).parent = par;
+}
+
+void printError()
+{
+    cout << "Syntax Error." << endl;
+    cout << farthest << ":: "
+         << "Unexpected token \"" << tokens[farthest] << "\"" << endl;
 }
 
 void printTree(Node *currentNode)
@@ -235,7 +252,7 @@ bool stmt_list(Node *currentNode)
     Node *n1 = createNode("stmt");
     Node *n2 = createNode("SEMICOLON");
     Node *n3 = createNode("stmt_list_LR");
-    // if all children match then add the corresponding egde in the syntax tree 
+    // if all children match then add the corresponding egde in the syntax tree
     if (stmt(n1) && match(SEMICOLON) && stmt_list_LR(n3))
     {
         add_edge(currentNode, n1);
@@ -245,7 +262,7 @@ bool stmt_list(Node *currentNode)
     }
     // if it is false, then update the current pointer back to the old position and return false
     // in case the production produces epsilon then we always return true -- for example look stmt_list_LR
-    
+
     current = old_position;
     return false;
 }
