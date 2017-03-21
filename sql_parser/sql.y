@@ -10,6 +10,8 @@ void yyerror (char *s, ...);
 void disp(const char *state, const char *string);
 %}
 
+%expect 434
+
 /* Yacc definitions */
 /* these are our tokens, that have their regexes defined in the lex file. */
 %token ALL
