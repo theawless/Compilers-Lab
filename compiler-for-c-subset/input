@@ -1,0 +1,11 @@
+struct ppoop{
+	int y, k, l;
+};
+
+int yy;
+
+
+void main(){
+	int x = 5;
+	int v = 8;
+}	
